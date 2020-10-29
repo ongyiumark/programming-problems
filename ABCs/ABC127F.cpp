@@ -1,3 +1,8 @@
+/*
+  Rolling median with 2 heaps (priority queues).
+  You can compute for the change in distance given the new median and the old median.
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 

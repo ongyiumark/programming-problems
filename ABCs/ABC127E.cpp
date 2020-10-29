@@ -1,3 +1,8 @@
+/*
+  Solve for x and y independently.
+  Fix 2 cells. This will be counted (NM-2)C(K-2) times.
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 

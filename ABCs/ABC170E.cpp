@@ -1,3 +1,7 @@
+/*
+  Have a separate multiset for the strongest of the each multiset.
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 

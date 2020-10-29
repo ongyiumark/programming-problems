@@ -1,3 +1,9 @@
+/*
+  Dijkstra with (city, current_coins) as the nodes. 
+  Clamp the current_coins.
+  Since A_i <= 50 and  N <= 50, current_coins <= 2500.
+*/
+
 #include <bits/stdc++.h>
 using namespace std;
 
