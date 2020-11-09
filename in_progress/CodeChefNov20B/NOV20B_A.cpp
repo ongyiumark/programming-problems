@@ -25,7 +25,7 @@ int main(){
       int curr = 0;
       for (int i = 0; i < n; i++){
         curr += c[i];
-        ans = max(curr, total-curr);
+        ans = min(ans, max(curr, total-curr));
       }
     } while(next_permutation(c, c+n));
 
