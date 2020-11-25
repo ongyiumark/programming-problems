@@ -21,6 +21,7 @@ ll fastpow(ll b, ll e){
     return ans;
 }
 
+// Number of ways with the original number of digits.
 ll f(string s, bool is_odd){
     int n = s.size();
     if (n == 0) return 0;
@@ -30,36 +31,26 @@ ll f(string s, bool is_odd){
     if (is_odd){
         if (now % 2 == 1) {
             ans += (now-1)/2 * fastpow(5, n-1);
-            if (n-1 > 0){
-                ans += f(s.substr(1), !is_odd);
-            }
+            if (n-1 > 0) ans += f(s.substr(1), !is_odd);
             else ans++;
         }
-        else {
-            ans += (now+1)/2 * fastpow(5, n-1);
-        }
+        else ans += (now+1)/2 * fastpow(5, n-1);
     }
     else {
         if (now % 2 == 0){
             ans += (now/2) * fastpow(5, n-1);
-            if (n-1 > 0){
-                ans += f(s.substr(1), !is_odd);
-            }
+            if (n-1 > 0) ans += f(s.substr(1), !is_odd);
             else ans++;
         }
-        else {
-            ans += (now/2+1) * fastpow(5, n-1);
-        }
+        else ans += (now/2+1) * fastpow(5, n-1);
     }
     return ans;
 }
 
+// Add the lower number of digits.
 ll g(string s){
     int n = s.size();
-    if (n == 0) return 0;
-    string t;
-    t.append(n-1, '9');
-    return f(s, 1) + g(t);
+    return f(s, 1) + (fastpow(5, n)-1)/4 -1;
 }
 
 void testcase(){

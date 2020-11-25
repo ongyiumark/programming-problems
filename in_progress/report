@@ -1,9 +1,0 @@
-1 or 2
-    - disjoint set union
-    - count the number of disjoint sets
-
-Flatten
-    - I had to figure out how to get the lcm
-
-Payment
-    - dp 2 states per character.
