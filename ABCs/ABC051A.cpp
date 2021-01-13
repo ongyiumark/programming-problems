@@ -15,5 +15,12 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  string s; cin >> s;
+  for (char c : s){
+    if (c == ',') cout << " ";
+    else cout << c;
+  }
+  cout << endl;
+
   return 0;
 }

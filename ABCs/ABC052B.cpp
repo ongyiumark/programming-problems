@@ -14,6 +14,15 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
+  int n; cin >> n;
+  string s; cin >> s;
+  int ans = 0;
+  int x = 0;
+  for (char c: s){
+    if (c == 'I') x++;
+    if (c == 'D') x--;
+    ans = max(ans, x);
+  }
+  cout << ans << endl;
   return 0;
 }
