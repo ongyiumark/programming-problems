@@ -15,6 +15,12 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  
+  char c; cin >> c;
+  bool is_vowel = false;
+  for (char v : {'a', 'e','i','o', 'u'}){
+    if (c == v) is_vowel = true;
+  }
+
+  cout << (is_vowel ? "vowel" : "consonant") << endl;
   return 0;
 }
