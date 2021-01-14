@@ -14,10 +14,14 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  int dp[10];
-  memset(dp, 127, sizeof dp);
-  for (int i = 0; i < 10; i++){
-    cout << dp[i] << endl;
-  }
+
+  int a, b; cin >> a >> b;
+  if (a == 1) a = 14;
+  if (b == 1) b = 14;
+
+  if (a > b) cout << "Alice";
+  else if (a < b) cout << "Bob";
+  else cout << "Draw";
+  cout << endl;
   return 0;
 }
