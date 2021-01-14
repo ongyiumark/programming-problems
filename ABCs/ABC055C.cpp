@@ -14,6 +14,10 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
+  
+  ll n, m; cin >> n >> m;
+  if (n*2 <= m) cout << n + (m-2*n)/4 << endl;
+  else cout << m/2 << endl;
 
   return 0;
 }

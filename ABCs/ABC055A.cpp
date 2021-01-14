@@ -14,6 +14,8 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
+  
+  int n; cin >> n;
+  cout << n*800 - n/15*200 << endl;
   return 0;
 }
