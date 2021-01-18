@@ -9,12 +9,13 @@ typedef long long ll;
 
 const int N = 5e5;
 vector<pair<int,ll>> adjlist[N];
-int n, m, s, t;
+ll dist[N];
+int par[N];
 
-// Needs n, s, t, and adjlist.
-void dijkstra(){
-    vector<ll> dist(n, 1e18);
-    vector<int> par(n, -1);
+// Needs dist[], par[], and adjlist[].
+void dijkstra(int s){
+    memset(dist, 31, sizeof dist);
+    memset(par, -1, sizeof par);
     priority_queue<pair<ll,int>, vector<pair<ll,int>>, greater<pair<ll,int>>> pq;
     dist[s] = 0;
     pq.push({dist[s], s});
@@ -33,7 +34,21 @@ void dijkstra(){
             }
         }
     }
-   
+}
+
+int main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, m, s, t;
+    cin >> n >> m >> s >> t;
+    for (int i = 0; i < m; i++){
+        int u, v, w; 
+        cin >> u >> v >> w;
+        adjlist[u].push_back({v, w});
+    }
+
+    dijkstra(s);
+
     stack<pair<int,int>> path;
     int temp = t;
     while(par[temp] != -1){
@@ -49,19 +64,6 @@ void dijkstra(){
         }
     }
     else cout << -1 << endl;
-}
 
-int main(){
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
-
-    cin >> n >> m >> s >> t;
-    for (int i = 0; i < m; i++){
-        int u, v, w; 
-        cin >> u >> v >> w;
-        adjlist[u].push_back({v, w});
-    }
-
-    dijkstra();
     return 0;   
 }
