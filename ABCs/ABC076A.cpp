@@ -15,5 +15,7 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  int r, g; cin >> r >> g;
+  cout << 2*g - r << endl;
   return 0;
 }
