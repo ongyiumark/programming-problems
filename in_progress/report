@@ -1,5 +1,3 @@
-ABC131F - Must be Rectangular
-
-ABC128E.cpp - Roadwork
-    - update currently closed roads by time
-    - reframe the problem
+ABC097E - Sorted and Sorted
+    I had a backtracking solution but I couldn't figure out how to memoize it.
+    I just had to reverse my recursion from bottom up to top down.
