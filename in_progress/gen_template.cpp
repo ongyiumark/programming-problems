@@ -13,11 +13,14 @@ typedef pair<int,pair<int,int>> piii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-int main(){
+int rand(int a, int b){
+  return a + rand() % (b-a+1);
+}
+
+int main(int argc, char* argv[]){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
-  int n; cin >> n;
-  cout << (n+1)/2 << endl;
+  srand(atoi(argv[1]));
+  
   return 0;
 }
