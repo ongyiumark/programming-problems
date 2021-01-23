@@ -1,3 +1,7 @@
-ABC097E - Sorted and Sorted
+ARC097E - Sorted and Sorted
     I had a backtracking solution but I couldn't figure out how to memoize it.
     I just had to reverse my recursion from bottom up to top down.
+
+ARC061 - Snuke's Subway Trip
+    Another backtracking solution.
+    Maybe DP?

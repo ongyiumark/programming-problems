@@ -17,5 +17,8 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  string s; cin >> s;
+  bool good = (s[0] == s[1] && s[1] == s[2]) || (s[1] == s[2] && s[2] == s[3]);
+  cout << (good ? "Yes" : "No") << endl;
   return 0;
 }

@@ -17,5 +17,8 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  string a, b; cin >> a >> b;
+  reverse(a.begin(), a.end());
+  cout << (a == b ? "YES" : "NO") << endl;
   return 0;
 }

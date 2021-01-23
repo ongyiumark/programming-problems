@@ -17,5 +17,10 @@ int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
+  char x, y; cin >> x >> y;
+  if (x > y) cout << ">";
+  else if (x < y) cout << "<";
+  else cout << "=";
+  cout << endl;
   return 0;
 }
