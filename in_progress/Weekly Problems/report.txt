@@ -2,4 +2,6 @@ UVa 820 - Internet Bandwidth
 I looked up a 5 min youtube explaination of the algo.
 I haven't read the book yet.
 
+UVa 11311 - Exclusively Edible
+Nim game with 4 stacks.
 ABC091 - ??
