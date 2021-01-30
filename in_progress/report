@@ -1,8 +1,5 @@
-ARC097E - Sorted and Sorted
-    I had a backtracking solution but I couldn't figure out how to memoize it.
-    I just had to reverse my recursion from bottom up to top down.
+UVa 820 - Internet Bandwidth
+I looked up a 5 min youtube explaination of the algo.
+I haven't read the book yet.
 
-ARC061 - Snuke's Subway Trip
-    Another backtracking solution.
-    Maybe DP?
-    It was that change of graph thing again.
+ABC091 - ??
