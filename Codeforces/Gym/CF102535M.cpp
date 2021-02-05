@@ -28,7 +28,7 @@
   If the length of the strings are less than or equal to the LCP, then theyre equal.
 
   However, the LCP only compares adjacent strings in the suffix array.
-  It turns out that the LCP of suffixes i and j is the minimum LCP along the interval [i+1,j] (1-indexed LCP).
+  It turns out that the LCP of suffixes i and j is the minimum LCP along the interval [i,j-1] (0-indexed LCP).
   This is a ranged minimum query, which can be done with a segment tree. 
 */
 #include <bits/stdc++.h>
@@ -86,8 +86,8 @@ void generate_lcp(){
   int l = 0;
   for (int i = 0; i < 2*n; i++){
     int k = inv_suffix[i];
-    if (k == 0) continue;
-    int j = suffix[k-1].second;
+    if (k == 2*n-1) continue;
+    int j = suffix[k+1].second;
     while(sr[i+l] == sr[j+l]) l++;
     LCP[k] = l;
     if (l > 0) l--;
@@ -125,7 +125,7 @@ int best_suffix(){
   for (int i = 0; i < n; i++) sr += s[i];
   for (int i = n-1; i >= 0; i--) sr += s[i];
   generate_suffix();
-  LCP[0] = 0;
+  LCP[2*n-1] = 0;
   generate_lcp();
   generate_segtree();
 
@@ -160,7 +160,7 @@ int best_suffix(){
       int r = inv_suffix[b[i].first];
       if (r < l) swap(l,r);
       // strings are equal
-      if (range_min(l+1,r) >= a[i].second) continue;
+      if (range_min(l,r-1) >= a[i].second) continue;
       if (inv_suffix[a[i].first] > inv_suffix[b[i].first]) lower = 1;
       break;
     }
