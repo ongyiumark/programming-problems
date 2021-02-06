@@ -6,7 +6,7 @@
   If it's odd and m is also odd, then we flip once and we should have an even number of zeros.
     Here we should prioritize all the zeros first so that we can have at most n-1 zeros.
   
-  Annoyinh edge case: n = m. 
+  Annoying edge case: n = m. 
 */
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
