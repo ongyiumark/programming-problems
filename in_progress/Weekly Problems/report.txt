@@ -6,5 +6,9 @@ ABC144F - Fork in the Road
 
 ABC151F - 
     The hard part was trying to find the circumcenter of a triangle.
-    
+
+ARC091F
+    This was surprisingly easy.
+    I knew I had to smartly solve the mex, so I just looked at patterns.
+    I actually thought it was gonna TLE, but it got AC HAHAH 
 ABC103 - ??
