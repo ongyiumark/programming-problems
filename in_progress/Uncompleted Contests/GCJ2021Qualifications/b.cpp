@@ -28,6 +28,7 @@ ll solve(int i, bool c){
   if (s[i] != '?' && s[i] != (c ? 'C' : 'J')) {
     return dp[i][c] = 1e9;
   }
+  if (i == n-1) return 0;
   
   if (c) return dp[i][c] = min(x+solve(i+1,0), solve(i+1,1));
   else return dp[i][c] = min(solve(i+1,0), y+solve(i+1,1));
