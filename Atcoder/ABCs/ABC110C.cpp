@@ -1,3 +1,9 @@
+/*
+  We just need to check 2 conditions:
+    1. If s[i] == s[j], then t[i] == t[j].
+    2. If t[i] == t[j], then s[i] == s[j].
+  Maintain two maps.
+*/
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -19,21 +25,19 @@ int main(){
   cin.tie(NULL);
   cin >> s >> t;
   int n = s.size();
-  map<char,char> partner;
+  map<char, char> st, ts;
   bool valid = 1;
   for (int i = 0; i < n; i++){
-    if (s[i] == t[i]) continue;
-    if (partner.find(s[i]) != partner.end() && partner[s[i]] != t[i]) {
+    if (st.find(s[i]) != st.end() && st[s[i]] != t[i]){
       valid = 0;
       break;
     }
-    if (partner.find(t[i]) != partner.end() && partner[t[i]] != s[i]){
+    if (ts.find(t[i]) != ts.end() && ts[t[i]] != s[i]){
       valid = 0;
       break;
     }
-
-    partner[s[i]] = t[i];
-    partner[t[i]] = s[i];
+    st[s[i]] = t[i];
+    ts[t[i]] = s[i];
   }
 
   cout << (valid ? "Yes" : "No") << endl;
