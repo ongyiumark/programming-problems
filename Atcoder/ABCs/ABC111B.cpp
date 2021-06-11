@@ -1,3 +1,6 @@
+/*
+  Check 111 to 999 in order.
+*/
 #include <bits/stdc++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>
@@ -16,6 +19,14 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  
+  int n; cin >> n;
+  for (int i = 1; i <= 9; i++){
+    string s;
+    s.append(3,'0'+i);
+    if (n <= stoi(s)){
+      cout << s << endl;
+      return 0;
+    } 
+  }
   return 0;
 }

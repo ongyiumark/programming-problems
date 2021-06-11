@@ -16,6 +16,11 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  
+  string s; cin >> s;
+  for (char &c : s){
+    if (c == '9') c = '1';
+    else if (c == '1') c = '9';
+  }
+  cout << s << endl;
   return 0;
 }
