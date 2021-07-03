@@ -1,1 +1,2 @@
 UVa820 - Max Flow
+ARC074F - Min Cut
