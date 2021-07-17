@@ -18,9 +18,9 @@ const ll MOD = 1e9+7;
 const int N = 5005;
 
 struct poly {
-    double a,b;
+    ld a,b;
 
-    poly (double a=0, double b=0) : a(a), b(b) {}
+    poly (ld a=0, ld b=0) : a(a), b(b) {}
     poly operator+(const poly& p) const {
         return poly(a+p.a, b + p.b);
     }
@@ -68,7 +68,7 @@ void inverse_fft(poly p[], int n){
     }
 }
 
-int mult(ll a[], int an, ll b[], int bn, ll c[]){
+int mult(__int128_t a[], int an, __int128_t b[], int bn, __int128_t c[]){
     int n, degree = an + bn - 1;
     for (n = 1; n < degree; n <<= 1){}
     poly *A = new poly[n], *B = new poly[n];
@@ -78,7 +78,7 @@ int mult(ll a[], int an, ll b[], int bn, ll c[]){
     for (int i = 0; i < n; i++) A[i] = A[i]*B[i];
     inverse_fft(A,n);
     for (int i = 0; i < an; i++){
-        c[i] = (ll)(A[i].a+0.5);
+        c[i] = (__int128_t)(A[i].a+0.5);
     } 
     delete[] A,B; return degree;
 }
@@ -86,7 +86,8 @@ int mult(ll a[], int an, ll b[], int bn, ll c[]){
 string s;
 int n, m;
 
-ll cat[N];
+__int128_t cat[N];
+__int128_t c[N][N];
 
 ll modpow(ll b, ll e){
     ll ans = 1;
@@ -106,15 +107,7 @@ ll solve(int b){
     int M = moves/2;
     int p = b+m+1;
 
-
-    ll c[M+1];
-    copy(cat, cat+M+1, c);
-    for (int i = 1; i < p; i++){
-        mult(c, M+1, cat, M+1, c);
-        for (int j = 0; j <= M; j++) c[j] %= MOD;
-    }
-
-    ll ans = (c[M]*modpow(2,M))%MOD;
+    ll ans = (c[p][M]*modpow(2,M))%MOD;
     return ans;
 }
 
@@ -134,10 +127,17 @@ int main() {
 
     cin >> n >> s;
     m = s.size();
+    copy(cat, cat+n+1, c[1]);
+    for (int i = 1; i <= n; i++){
+        mult(c[i], n+1, cat, n+1, c[i+1]);
+        for (int j = 0; j <= n; j++) 
+            c[i+1][j] %= MOD;
+    }
+
 
     ll ans = 0;
     for (int b = 0; b <= n; b++){
-        //cout << b << " " << solve(b) << endl;
+        cout << b << " " << solve(b) << endl;
         ans += solve(b);
         ans %= MOD;
     }
