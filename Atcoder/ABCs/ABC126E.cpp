@@ -1,65 +1,60 @@
 /*
-  Count the number of disjoint sets.
-  The Z values don't matter.
+  For every i, form an edge between X[i] and Y[i]. 
+  The answer is the number of disjoint sets.
+    This is because if we know one of X[i] or Y[i], then we can conclude the other one.
 */
-
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
 
 typedef long long ll;
 typedef long double ld;
+typedef pair<int,int> pii;
+typedef pair<int,pair<int,int>> piii;
 
-const int N = 1e5+1;
+template <typename T>
+using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-struct DSU{
-  int par[N];
+const int N = 1e5+5;
+int X[N], Y[N], Z[N];
 
-  void init(){
-    memset(par, -1, sizeof par);
+struct union_find{
+  vector<int> ar;
+  union_find(int n) {
+    ar = vector<int>(n,-1);
   }
 
-  int find(int i){
-    if (par[i] < 0) return i;
-    return par[i] = find(par[i]);
+  int find(int x){
+    if (ar[x] < 0) return x;
+    return ar[x] = find(ar[x]);
   }
 
-  void unite(int a, int b){
+  bool unite(int a, int b){
     a = find(a);
     b = find(b);
-    if (a == b) return;
-    if (par[a] < par[b]){
-      par[a] += par[b];
-      par[b] = a;
-    }
-    else {
-      par[b] += par[a];
-      par[a] = b;
-    }
+    if (a == b) return false;
+    if (ar[a] < ar[b]) swap(a,b);
+    ar[b] += ar[a];
+    ar[a] = b;
+    return true;
   }
-
-  int count(int n){
-    int ans = 0;
-    for (int i = 1; i <= n; i++){
-      ans += par[i] < 0;
-    }
-    return ans;
-  }
-} dsu;
+} dsu(N);
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
   int n, m; cin >> n >> m;
-  dsu.init();
-
-  for (int i = 0; i < m; i++){
-    int x, y, z;
-    cin >> x >> y >> z;
-    dsu.unite(x,y);
+  for (int i = 0; i < m; i++) {
+    cin >> X[i] >> Y[i] >> Z[i];
+    dsu.unite(X[i], Y[i]);
   }
-
-  cout << dsu.count(n) << endl;
-
+  int cnt = 0;
+  for (int i = 1; i <= n; i++){
+    cnt += dsu.ar[i] < 0;
+  }
+  cout << cnt << endl;
   return 0;
 }
