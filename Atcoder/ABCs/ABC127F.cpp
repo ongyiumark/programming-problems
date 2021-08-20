@@ -1,57 +1,77 @@
 /*
-  Rolling median with 2 heaps (priority queues).
-  You can compute for the change in distance given the new median and the old median.
-*/
+  This is a rolling median problem.
+  This is because the x that minimizes |x-a1| + |x-a2| + ... is the median of
+    {a1, a2, ...}.
+  Note that b1, b2, b3, ... just add to the final total, so we can just keep track of their sum as they come.
 
+  We can get the median with an ordered_set, but the 'traditional way' is with two priority queues.
+    That is, one max heap and one min heap.
+    This can also be done with a fenwick tree.
+
+  We can then compute for the change in 'distance' when the median changes.
+  It turns out that the median only changes when it increases.
+  When the median get bigger, we simply subtract the distance from the previous median to the current median.
+*/
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
 using namespace std;
+using namespace __gnu_pbds;
 
 typedef long long ll;
 typedef long double ld;
+typedef pair<int,int> pii;
+typedef pair<int,pair<int,int>> piii;
 
-const int N = 2e5;
-priority_queue<int> lleft;
-priority_queue<int, vector<int>, greater<int>> rright;
+template <typename T>
+using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
   int q; cin >> q;
-  ll B = 0;
-  ll med = 0;
-  ll A = 0;
-  while (q--){
-    int t; cin >> t;
-    if (t == 1){
-      ll a, b; cin >> a >> b;
-      B += b;
+  ll totala = 0, totalb = 0;
+  ll currmed, prevmed;
+  currmed = prevmed = 1e10;
+  priority_queue<ll> lpq;
+  priority_queue<ll, vector<ll>, greater<ll>> rpq;
 
-      ll new_med = -1;
-      int n = lleft.size();
-      int m = rright.size();
-      bool check = true;
-      
-      if (n <= m){
-        rright.push(a);
-        lleft.push(rright.top());
-        rright.pop();
-        new_med = lleft.top();
-      }
-      else {
-        lleft.push(a);
-        rright.push(lleft.top());
-        lleft.pop();
-        new_med = lleft.top();
-        check = false;
-      }
-      
-      A += abs(med - a) - abs(med-new_med)*check;
-      med = new_med;
-    }
+  while(q--){
+   int x; cin >> x;
+   if (x == 1){
+    ll a, b; cin >> a >> b;
+    totalb += b;
+
+    if (currmed == 1e10) currmed = a;
     else {
-      cout << med << " " << A + B << "\n";
+      totala += abs(currmed-a);
     }
+    rpq.push(a);
+    if (lpq.size() < rpq.size()){
+      lpq.push(rpq.top());
+      rpq.pop();
+    }
+    else if (lpq.top() > rpq.top()){
+      rpq.push(lpq.top());
+      lpq.pop();
+      lpq.push(rpq.top());
+      rpq.pop();
+    }
+
+    if (!lpq.empty()){
+      prevmed = currmed;
+      currmed = lpq.top();
+      if (prevmed < currmed){
+        totala -= abs(currmed-prevmed);
+      }
+    }
+
+   } 
+   else {
+     cout << currmed << " " << totalb + totala << endl; 
+   }
   }
   return 0;
 }
