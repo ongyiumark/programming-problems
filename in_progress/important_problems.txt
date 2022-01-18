@@ -1,2 +1,4 @@
 UVa820 - Max Flow
 ARC074F - Min Cut
+
+CF102001F - range maximum (sparse table)
