@@ -16,6 +16,21 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  
+  int n, m; cin >> n >> m;
+  int cnt[m];
+  memset(cnt, 0, sizeof cnt);
+  for (int i = 0; i < n; i++){
+    int a; cin >> a;
+    a--;
+    cnt[a]++;
+  }
+
+  int ans = 0;
+  for (int i = 0; i < m; i++){
+    for (int j = i+1; j < m; j++){
+      ans += cnt[i]*cnt[j];
+    }
+  }
+  cout << ans << endl;
   return 0;
 }
