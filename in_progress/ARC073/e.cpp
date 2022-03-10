@@ -7,14 +7,16 @@ using namespace __gnu_pbds;
 
 typedef long long ll;
 typedef long double ld;
-typedef pair<int,int> pii;
-typedef pair<int,pair<int,int>> piii;
+typedef pair<ll,ll> pii;
+typedef pair<pair<ll,ll>,int> piii;
 
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 const int N = 2e5+5;
-ll X[N], Y[N];
+ll X[N], Y[N]; 
+piii pairedX[N], pairedY[N];
+bool vis[N];
 int n;
 
 int main(){
@@ -23,42 +25,53 @@ int main(){
   
   cin >> n;
   for (int i = 0; i < n; i++){
-    cin >> X[i] >> Y[i];
+    ll x, y; cin >> x >> y;
+    if (x > y) swap(x,y);
+    X[i] = x; Y[i] = y;
+    pairedX[i] = {{x,y},i};
+    pairedY[i] = {{y,x},i};
   }
+  sort(pairedX, pairedX+n);
+  sort(pairedY, pairedY+n);
+  memset(vis, 0, sizeof vis);
 
   ll Rmax, Rmin, Bmax, Bmin;
-  Rmax = Bmax = -1e18;
-  Rmin = Bmin = 1e18;
+
+  int L = 0, R = n-1;
+  if (pairedX[L].second == pairedY[R].second) R--;
+  vis[pairedX[L].second] = 1;
+  vis[pairedY[R].second] = 1;
+
+  // min is R and max is R
+  Rmin = pairedX[L].first.first;
+  Rmax = pairedY[R].first.first;
+  Bmin = pairedX[L].first.second;
+  Bmax = pairedY[R].first.second;
+  if (Bmax < Bmin) swap(Bmax, Bmin);
+
+  for (int i = 0; i < n; i++){
+    if (vis[i]) continue;
+    if (Bmin <= X[i] && X[i] <= Bmax) continue;
+    if (Bmin <= Y[i] && Y[i] <= Bmax) continue;
+    if (Y[i] < Bmin) Bmin = Y[i];
+    if (X[i] > Bmax) Bmax = X[i];
+  }
+  ll ans1 = (Rmax-Rmin)*(Bmax-Bmin);
+
+  // min is R and max is B
+  Rmin = pairedX[L].first.first;
+  Bmax = pairedY[R].first.first;
+  Bmin = pairedX[L].first.second;
+  Rmax = pairedY[R].first.second;
+  if (Bmax < Bmin) swap(Bmax, Bmin);
 
   for (int i = 0; i < n; i++) {
-    ll nRmax1, nRmin1, nBmax1, nBmin1;
-    ll nRmax2, nRmin2, nBmax2, nBmin2;
-    // X is red
-    nRmax1 = max(Rmax, X[i]);
-    nRmin1 = min(Rmin, X[i]);
-    nBmax1 = max(Bmax, Y[i]);
-    nBmin1 = min(Bmin, Y[i]);
-
-    // Y is red
-    nRmax2 = max(Rmax, Y[i]);
-    nRmin2 = min(Rmin, Y[i]);
-    nBmax2 = max(Bmax, X[i]);
-    nBmin2 = min(Bmin, X[i]);
-
-    if ((nRmax1-nRmin1)*(nBmax1-nBmin1) < (nRmax2-nRmin2)*(nBmax2-nBmin2)) {
-      Rmax = nRmax1;
-      Rmin = nRmin1;
-      Bmax = nBmax1;
-      Bmin = nBmin1;
-    }
-    else {
-      Rmax = nRmax2;
-      Rmin = nRmin2;
-      Bmax = nBmax2;
-      Bmin = nBmin2;
-    }
+    if (vis[i]) continue;
+    Rmax = max(Rmax,X[i]);
+    Bmin = min(Bmin,Y[i]);
   }
+  ll ans2 = (Rmax-Rmin)*(Bmax-Bmin);
 
-  cout << (Rmax-Rmin)*(Bmax-Bmin) << endl;
+  cout << min(ans1, ans2) << endl;
   return 0;
 }
