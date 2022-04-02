@@ -1,5 +1,6 @@
 /*
   Maintain a merge sort tree.
+  Check if first element and last element in the a segment is x.
   Probably overkill, but its the first thing I thought of.
 */
 #include <bits/stdc++.h>
