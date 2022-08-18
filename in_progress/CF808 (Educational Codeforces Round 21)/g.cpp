@@ -15,7 +15,6 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 
 const int N = 2e5+5;
 int p[N];
-int Z[N];
 
 int main(){
   ios_base::sync_with_stdio(false);
@@ -23,12 +22,25 @@ int main(){
   string s, t; cin >> s >> t;
   string st = t+"#"+s;
   int n = st.size();
-  int L = 0, R = 0, z[0];
-  for (int i = 0; i < n; i++) {
-    if (i <= R) z[i] = min(R-i+1, z[i-L]);
-    while (i+z[i] < n && st[z[i]] == st[i+z[i]]) z[i]++;
-    if (i+z[i]-1 > R) L = i, R = i+z[i]-1;
+  int L = 0, R = 1;
+  p[0] = 0;
+  while(R < n) {
+    if (st[L] == st[R]) {
+      p[R] = L+1;
+      L++; R++;
+    }
+    else if (L > 0 && st[L-1] == st[R-1]) L = p[L-1];
+    else {
+      p[R] = 0;
+      R++;
+    }
   }
+
+  cout << st << endl;
+  for (int i = 0; i < n; i++) {
+    cout << p[i] << " ";
+  }
+  cout << endl;
   
   return 0;
 }
