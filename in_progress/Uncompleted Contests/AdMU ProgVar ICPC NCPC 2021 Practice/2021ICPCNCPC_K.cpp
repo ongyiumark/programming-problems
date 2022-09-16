@@ -13,34 +13,22 @@ typedef pair<int,pair<int,int>> piii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const int N = 2e5+5;
-int p[N];
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  string s, t; cin >> s >> t;
-  string st = t+"#"+s;
-  int n = st.size();
-  int L = 0, R = 1;
-  p[0] = 0;
-  while(R < n) {
-    if (st[L] == st[R]) {
-      p[R] = L+1;
-      L++; R++;
-    }
-    else if (L > 0 && st[L-1] == st[R-1]) L = p[L-1];
-    else {
-      p[R] = 0;
-      R++;
-    }
+
+  int n; cin >> n;
+  multiset<int> s;
+  for (int i = 0; i < n; i++) {
+    int x; cin >> x;
+    s.insert(x);
+  }
+  for (int i = 0; i < n-1; i++) {
+    int x; cin >> x;
+    s.erase(s.find(x));
   }
 
-  cout << st << endl;
-  for (int i = 0; i < n; i++) {
-    cout << p[i] << " ";
-  }
-  cout << endl;
+  cout << *s.begin() << endl;
   
   return 0;
 }
