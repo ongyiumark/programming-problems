@@ -14,16 +14,27 @@ typedef pair<int,pair<int,int>> iii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const int N = 1e5+5;
-ll X[N], Y[N];
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  int w, h; cin >> w >> h;
-  int n; cin >> n;  
-  for (int i = 0; i < n; i++) cin >> X[i] >> Y[i];
+  string s; cin >> s;
+  int n = s.size();
+  if (n&1) {
+    cout << "fix" << endl;
+    return 0;
+  }
+
+  bool val = true;
+  for (int i = 0; i < n/2; i++) {
+    if (s[i] == '(') {
+      if (i+1 != n-1-i || s[n-1-i] != ')') val = false;
+    }
+    else if (s[i] != s[n-1-i]) val = false; 
+  }
+
+  if (val) cout << "correct" << endl;
+  else cout << "fix" << endl;
   
   return 0;
 }

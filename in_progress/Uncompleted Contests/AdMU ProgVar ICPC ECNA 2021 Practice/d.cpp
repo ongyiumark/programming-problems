@@ -14,16 +14,9 @@ typedef pair<int,pair<int,int>> iii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const int N = 1e5+5;
-ll X[N], Y[N];
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
-  int w, h; cin >> w >> h;
-  int n; cin >> n;  
-  for (int i = 0; i < n; i++) cin >> X[i] >> Y[i];
   
   return 0;
 }

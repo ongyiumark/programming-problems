@@ -7,17 +7,33 @@ using namespace __gnu_pbds;
 
 typedef long long ll;
 typedef long double ld;
-typedef pair<int,int> pii;
-typedef pair<int,pair<int,int>> piii;
+typedef vector<int> vi;
+typedef pair<int,int> ii;
+typedef pair<int,pair<int,int>> iii;
 
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+string s;
+const ll M = 11092019;
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  
+  cin >> s;
+  map<char, ll> cnt;
+  for (char c : s) {
+    cnt[c]++;
+  }
+
+  ll total = 1;
+  for (int i = 0; i < 26; i++) {
+    char ch = i+'a';
+    total = (total*(cnt[ch]+1))%M;
+  }
+  cout << total << endl;
+
   
   return 0;
 }
