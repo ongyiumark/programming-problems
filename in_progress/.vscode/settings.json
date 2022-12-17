@@ -75,5 +75,5 @@
         "typeinfo": "cpp",
         "variant": "cpp"
     },
-    "terminal.integrated.fontFamily": "InconsolataLGC Nerd Font"
+    "terminal.integrated.fontFamily": "monospace"
 }
