@@ -14,36 +14,29 @@ typedef pair<int,pair<int,int>> iii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
+const ll INF = 1e18;
 const int N = 2e5+5;
-const int P = 1e4+5;
-ll dp[N];
-ll cnt[P];
+int a[N];
+int n;
+map<ii, ll> memo;
+
+ll solve(int i, int x) {
+  if (memo.find({i, x}) != memo.end()) return memo[{i,x}];
+  ll &ans = memo[{i,x}];
+  if (x == 0) ans = 0;
+  else if (n-i <= 2*x-1) ans = a[i] + solve(i+2, x-1);
+  else ans = max(a[i] + solve(i+2, x-1), solve(i+1, x));
+
+  return ans;
+}
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  int n, p;
-  string s;
-  cin >> n >> p >> s;
-
-  memset(cnt, 0, sizeof cnt);
-  memset(dp, 0, sizeof dp);
-
-  ll total = 0;
-  for (int i = 0; i < n; i++) {
-    for (int j = i; j < n; j++) {
-      string t = s.substr(i, j-i+1);
-      ll curr = 0;
-      for (char &ch : t) {
-        curr = (curr*10 + (ch-'0'))%p;
-      }
-      total += (curr==0);
-    }
-  }
-
-  cout << total << "\n";
- 
-
+  cin >> n;
+  for (int i = 0; i < n; i++) cin >> a[i];
+  cout << solve(0, n/2) << "\n";
+  
   return 0;
 }
