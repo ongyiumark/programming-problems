@@ -14,25 +14,29 @@ typedef pair<int,pair<int,int>> iii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-int rand(int a, int b){
-  return a + rand() % (b-a+1);
-}
+const int INF = 2e9;
+const int N = 2e5+5;
 
-int main(int argc, char* argv[]){
+int A[N], B[N];
+
+int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  srand(atoi(argv[1]));
 
-  int n = rand(2,5);
-  vector<int> primes = {2,5,7,11,13};
-  int p = primes[rand(0,4)];
-  string s;
+  int n; cin >> n;
   for (int i = 0; i < n; i++) {
-    if (i == 0) s.append(1, rand(1,9)+'0');
-    else s.append(1, rand(0,9)+'0');
+    cin >> A[i] >> B[i];
   }
-  cout << n << " " << p << endl;
-  cout << s << endl;
+
+  sort(A, A+n);
+  sort(B, B+n);
+
+  if (n%2 == 1) {
+    cout << B[n/2]-A[n/2]+1 << "\n";
+  }
+  else {
+    cout << (B[n/2-1]+B[n/2])-(A[n/2-1]+A[n/2])+1 << "\n";
+  }
   
   return 0;
 }
