@@ -14,50 +14,42 @@ typedef pair<int,pair<int,int>> iii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const int N = 45;
-ll n, t;
-ll A[N];
+const int N = 2e5+5;
+int p[N];
+int vis[N];
+int n;
+queue<int> q;
 
-const int N2 = 20;
-ll L[1<<N2], R[1<<N2];
+int dfs(int u) {
+  q.push(u);
+  if (vis[p[u]] == -1) return 0;
+  if (vis[p[u]] == 0) {
+    vis[p[u]] = vis[u]+1;
+    return dfs(p[u]);
+  }
+  else return vis[u];
+} 
 
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  cin >> n >> t;
-  for (int i = 0; i < n; i++) cin >> A[i];  
-  memset(L, 0, sizeof L);
-  memset(R, 0, sizeof R);
 
-  if (n == 1) {
-    cout << (A[0] <= t ? A[0] : 0) << "\n";
-    return 0;
-  }
+  cin >> n;
+  for (int i = 1; i <= n; i++) cin >> p[i];
+  for (int i = 1; i <= n; i++) vis[i] = 0;
 
-  int a = 0, b = n/2-1, c = n/2, d = n-1;
-  int lsz = b-a+1;
-  int rsz = d-c+1;
-  
-  for (int i = 0; i < (1 << lsz); i++) {
-    for (int j = 0; j < lsz; j++) {
-      if ((1<<j)&i) L[i] += A[a+j];
-    }
-  }
-  
-  for (int i = 0; i < (1 << rsz); i++) {
-    for (int j = 0; j < rsz; j++) {
-      if ((1<<j)&i) R[i] += A[c+j];
+  int ans = 0;
+  for (int i = 1; i <= n; i++) {
+    if (vis[i] == -1) continue;
+    ans = max(dfs(i), ans);
+    while(!q.empty()) {
+      vis[q.front()] = -1;
+      q.pop();
     }
   }
 
-  sort(L, L+(1<<lsz));
-  sort(R, R+(1<<rsz));
+  if (ans > 0 && ans % 2 == 1) cout << "IMPOSSIBLE\n";
+  else cout << "POSSIBLE\n";
 
-  ll ans = 0;
-  for (int i = 0; i < (1<<lsz); i++) {
-    if (L[i] > t) break;
-    ans = max(ans, L[i] + *prev(upper_bound(R, R+(1<<rsz), t-L[i])));
-  }
-  cout << ans << "\n";
   return 0;
 }
