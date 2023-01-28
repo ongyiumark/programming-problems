@@ -15,42 +15,43 @@ template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 const int N = 1e5+5;
-vi graph[N];
-int vis[N], du[N], dv[N];
-int n, u, v;
+int A[N], B[N];
+vector<int> graph[N];
+int du[N], dv[N];
 
-void dfs(int x, int *d) {
-  vis[x] = 1;
-  for (int y : graph[x]) {
-    if (vis[y]) continue;
-    d[y] = d[x]+1;
-    dfs(y, d);
+void dfs(int* d, int u, int p) {
+  for (int v : graph[u]) {
+    if (v == p) continue;
+    d[v] = d[u]+1;
+    dfs(d, v, u);
   }
 }
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  cin >> n >> u >> v;
+
+  int n; cin >> n;
+  int u, v; cin >> u >> v;
+  u--; v--;
   for (int i = 0; i < n-1; i++) {
-    int a, b; cin >> a >> b;
-    graph[a].push_back(b);
-    graph[b].push_back(a);
+    cin >> A[i] >> B[i];
+    A[i]--; B[i]--;
+    graph[A[i]].push_back(B[i]);
+    graph[B[i]].push_back(A[i]);
   }
 
-  memset(vis, 0, sizeof vis);
-  memset(du, 0, sizeof du);
-  dfs(u, du);
+  dv[v] = 0;
+  dfs(dv, v, -1);
 
-  memset(vis, 0, sizeof vis);
-  memset(dv, 0, sizeof dv);
-  dfs(v, dv);
+  du[u] = 0;
+  dfs(du, u, -1);
 
-  int ans = 0;
-  for (int i = 1; i <= n; i++) {
-    if (du[i] < dv[i]) ans = max(ans, dv[i]); 
+  int hi = 0;
+  for (int i = 0; i < n; i++) {
+    if (du[i] >= dv[i]) continue;
+    hi = max(hi, dv[i]);
   }
-  cout << ans-1 << "\n";
+  cout << hi-1 << "\n";
   
   return 0;
 }
