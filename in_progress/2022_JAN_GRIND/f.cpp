@@ -15,7 +15,8 @@ template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 const int N = 1e3+5;
-vector<pair<int, char>> graph[N];
+vector<int> graph[N][26];
+vector<tuple<int,int,char>> edges;
 bool vis[N][N];
 
 int main(){
@@ -27,40 +28,52 @@ int main(){
     int a, b;
     char c;
     cin >> a >> b >> c;
-    graph[a].push_back({b,c});
-    graph[b].push_back({a,c});
+    edges.push_back({a,b,c});
+    edges.push_back({b,a,c});
+    graph[a][c-'a'].push_back(2*i);
+    graph[b][c-'a'].push_back(2*i+1);
   }
-
   memset(vis, 0, sizeof vis);
 
-  queue<ii> q;
-  q.push({1,n});
+
+  queue<tuple<int,int>> q;
+  q.push({m+1, m+1});
   int curr_nodes = 1;
   int next_layer = 0;
   int moves = 0;
   int found = 0;
 
   while(!q.empty()) {
-    auto [u,v] = q.front();
+    auto [j, k] = q.front();
+    int u, v;
+    if (j == k && j == m+1) {
+      u = 1;
+      v = n;
+    }
+    else {
+      u = get<1>(edges[j]);
+      v = get<1>(edges[k]);
+    }
+
     q.pop();
 
     if (u == v) found = 1;
     if (found) break;
-    for (auto [uu,cu] : graph[u]) {
-      if (uu == v) found = 2;
+    for (int i = 0; i < 26; i++) {
+      for (int idx : graph[u][i]) {
+        auto [a,b,c] = edges[idx];
+        if (b == v) found = 2;
+      }
     }
     if (found) break;
-
-    for (auto [uu,cu] : graph[u]) {
-      for (auto [vv,cv] : graph[v]) {
-        int x = min(uu,vv);
-        int y = max(uu,vv);
-
-        if (vis[x][y]) continue;
-        if (cu != cv) continue;
-        q.push({x,y});
-        vis[x][y] = 1;
-        next_layer++;
+    for (int i = 0; i < 26; i++) {
+      for (auto j : graph[u][i]) {
+        for (auto k : graph[v][i]) {
+          if (vis[j][k]) continue;
+          q.push({j,k});
+          vis[j][k] = 1;
+          next_layer++;
+        }
       }
     }
 
