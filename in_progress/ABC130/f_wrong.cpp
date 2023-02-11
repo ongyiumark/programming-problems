@@ -41,18 +41,6 @@ ld solve(ld t) {
   return (y_hi - y_lo)*(x_hi - x_lo);
 }
 
-pair<ld,ld> min_max(vector<ll> &z, int *dz, ld t) {
-  ld x_lo, x_hi;
-  x_lo = INF; x_hi = -INF;
-  for (int i = 0; i < n; i++) {
-    x_lo = min(x_lo, z[i]+dz[d[i]]*t);
-    x_hi = max(x_hi, z[i]+dz[d[i]]*t);
-  }
-
-  return {x_lo, x_hi};
-}
-
-
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
@@ -66,9 +54,26 @@ int main(){
     d[i] = um[c];
   }
 
-  
+  ld L = 0;
+  ld R = 1e9;
+  ld ans = 1e18;
 
- 
+  ll iter = 0;
+  ll max_iter = 1000;
+
+  while(iter <= max_iter) {
+    ld m1 = (2*L + R)/3;
+    ld m2 = (L + 2*R)/3;
+
+    ld m1_ans = solve(m1);
+    ld m2_ans = solve(m2);
+
+    if (m1_ans < m2_ans) R = m2;
+    else L = m1;
+
+    ans = min({ans, m1_ans, m2_ans});
+    iter++;
+  }
 
   cout << fixed << setprecision(11) << ans << endl;
 
