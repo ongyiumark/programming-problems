@@ -1,0 +1,1 @@
+g++ $1.cpp -x c++ -Wall -std=gnu++17 -O3 -static -pipe -o $1
