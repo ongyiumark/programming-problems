@@ -17,6 +17,31 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
+
+  int n, k; cin >> n >> k;
+  int r, s, p; cin >> r >> s >> p;
+  string t; cin >> t;
+  string res = "";
+  map<char, char> win = {{'r', 'p'}, {'p', 's'}, {'s', 'r'}};
+  map<char, int> score = {{'r', r}, {'p', p}, {'s', s}};
+
+  ll total = 0;
+  for (char &c : t) {
+    res += win[c];
+  }
+
+  int sz = res.size();
+  for (int i = 0; i < sz; i++) {
+    if (i-k >= 0 && res[i-k] == res[i]) {
+      res[i] = '#';
+      continue;
+    }
+    total += score[res[i]];
+  }
+
+  cout << total << "\n";
+
+
   
   return 0;
 }

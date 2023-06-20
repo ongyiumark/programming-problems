@@ -17,8 +17,14 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  
-  
 
+  ll a, b, k; cin >> a >> b >> k;
+  ll tmp = min(a,k);
+  a -= tmp; k -= tmp;
+  tmp = min(b, k);
+  b -= tmp; k -= tmp;
+
+  cout << a << " " << b << "\n";
+  
   return 0;
 }
