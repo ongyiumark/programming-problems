@@ -17,14 +17,22 @@ using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_or
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-
-  ll a, b, k; cin >> a >> b >> k;
-  ll tmp = min(a,k);
-  a -= tmp; k -= tmp;
-  tmp = min(b, k);
-  b -= tmp; k -= tmp;
-
-  cout << a << " " << b << "\n";
   
+  int n; cin >> n;
+
+  vector<ll> a(n), p(n+1), hi(n+1);
+  for (ll &x : a) cin >> x;
+  for (int i = 0; i < n; i++) p[i+1] = p[i]+a[i];
+  for (int i = 0; i < n; i++) hi[i+1] = max(hi[i], p[i+1]);
+
+  ll ans = 0;
+  ll curr = 0;
+  for (int i = 1; i <= n; i++) {
+    ans = max(ans, curr+hi[i]);
+    curr += p[i]; 
+  }
+  cout << ans << "\n";
+
+
   return 0;
 }

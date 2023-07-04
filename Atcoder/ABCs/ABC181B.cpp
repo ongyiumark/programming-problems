@@ -14,32 +14,25 @@ typedef pair<int,pair<int,int>> iii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
+ll solve(ll n) {
+  return n*(n+1)/2;
+}
+
+ll solve(ll a, ll b) {
+  return solve(b)-solve(a-1);
+}
+
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
 
-  int n, k; cin >> n >> k;
-  int r, s, p; cin >> r >> s >> p;
-  string t; cin >> t;
-  string res = "";
-  map<char, char> win = {{'r', 'p'}, {'p', 's'}, {'s', 'r'}};
-  map<char, int> score = {{'r', r}, {'p', p}, {'s', s}};
-
-  ll total = 0;
-  for (char &c : t) {
-    res += win[c];
+  int n; cin >> n;
+  ll ans = 0;
+  for (int i = 0; i < n; i++) {
+    ll a, b; cin >> a >> b;
+    ans += solve(a, b);
   }
-
-  int sz = res.size();
-  for (int i = 0; i < sz; i++) {
-    if (i-k >= 0 && res[i-k] == res[i]) {
-      res[i] = '#';
-      continue;
-    }
-    total += score[res[i]];
-  }
-
-  cout << total << "\n";
+  cout << ans << "\n";
 
 
   
