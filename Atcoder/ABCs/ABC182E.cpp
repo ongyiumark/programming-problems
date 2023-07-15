@@ -21,20 +21,19 @@ struct point {
 int di[] = {0,0,1,-1};
 int dj[] = {-1,1,0,0};
 
-bool solve(int i, int j, int dir, vector<vector<char>>& grid) {
-  if (grid[i][j] == '#') return false;
-  if (grid[i][j] == 'B') return true;
+void solve(int i, int j, int dir, vector<vector<char>>& grid, vector<vector<bool>> &vis) {
+  if (grid[i][j] == '#') return;
+  vis[i][j] = true;
 
   int h = grid.size();
   int w = grid[0].size();
 
-  bool res = false;
   if (dir == -1) {
     for (int k = 0; k < 4; k++) {
       int x = i + di[k];
       int y = j + dj[k];
       if (x < 0 || x >= h || y < 0 || y >= w) continue;
-      res |= solve(x, y, k, grid);
+      solve(x, y, k, grid, vis);
     }
 
   }
@@ -42,12 +41,8 @@ bool solve(int i, int j, int dir, vector<vector<char>>& grid) {
     int x = i + di[dir];
     int y = j + dj[dir];
     if (x < 0 || x >= h || y < 0 || y >= w) {}
-    else{
-      res |= solve(x, y, dir, grid); 
-    }
+    else solve(x, y, dir, grid, vis); 
   }
-
-  return res;
 }
 
 int main(){
@@ -56,9 +51,11 @@ int main(){
 
   int h, w, n, m; cin >> h >> w >> n >> m;
   vector<vector<char>> grid(h, vector<char>(w, '.'));
+  vector<pair<ll,ll>> bulbs(n);
   for (int i = 0; i < n; i++) {
     int a, b; cin >> a >> b;
     a--; b--;
+    bulbs[i] = {a,b};
     grid[a][b] = 'B';
   } 
 
@@ -68,10 +65,26 @@ int main(){
     grid[c][d] = '#';
   }
 
+  vector<vector<bool>> vis_row(h, vector<bool>(w));
+  for (int i = 0; i < n; i++) {
+    auto &[ci, cj] = bulbs[i];
+    if (vis_row[ci][cj]) continue;
+    solve(ci, cj, 0, grid, vis_row);
+    solve(ci, cj, 1, grid, vis_row);
+  }
+
+  vector<vector<bool>> vis_col(h, vector<bool>(w));
+  for (int i = 0; i < n; i++) {
+    auto &[ci, cj] = bulbs[i];
+    if (vis_col[ci][cj]) continue;
+    solve(ci, cj, 2, grid, vis_col);
+    solve(ci, cj, 3, grid, vis_col);
+  }
+
   int cnt = 0;
   for (int i = 0; i < h; i++) {
     for (int j = 0; j < w; j++) {
-      cnt += solve(i, j, -1, grid);
+      cnt += vis_row[i][j] | vis_col[i][j];
     }
   }
 

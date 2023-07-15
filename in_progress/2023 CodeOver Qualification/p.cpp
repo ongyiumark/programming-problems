@@ -1,0 +1,123 @@
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+
+using namespace std;
+using namespace __gnu_pbds;
+
+typedef long long ll;
+typedef long double ld;
+typedef vector<int> vi;
+typedef pair<int,int> ii;
+typedef pair<int,pair<int,int>> iii;
+
+template <typename T>
+using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+
+struct segtree {
+  vector<int> vals;
+  vector<int> deltas;
+
+  segtree(vector<int> &ar) {
+    int n = ar.size();
+    vector<int>(4*n).swap(vals);
+    vector<int>(4*n).swap(deltas);
+
+    build(ar, 1, 0, n-1);
+  }
+
+  void build(vector<int> &ar, int p, int i, int j) {
+    if (i == j) {
+      vals[p] = ar[i];
+      return;
+    }
+
+    int k = (i+j)>>1;
+    build(ar, p<<1, i, k);
+    build(ar, p<<1|1, k+1, j);
+    pull(p);
+  }
+
+  void pull(int p) {
+    vals[p] = max(vals[p<<1], vals[p<<1|1]);
+  }
+
+  void push(int p, int i, int j) {
+    if (deltas[p] != 0) {
+      vals[p] += deltas[p];
+      if (i != j) {
+        deltas[p<<1] += deltas[p];
+        deltas[p<<1|1] += deltas[p];
+      }
+      deltas[p] = 0;
+    }
+  }
+
+  void update(int l, int r, int v, int p, int i, int j) {
+    push(p, i, j);
+    if (l <= i && j <= r) {
+      deltas[p] += v;
+      push(p, i, j);
+    } 
+    else if (j < l || r < i) {}
+    else {
+      int k = (i+j)>>1;
+      update(l, r, v, p<<1, i, k);
+      update(l, r, v, p<<1|1, k+1, j);
+      pull(p);
+    }
+  }
+
+  int query(int l, int r, int p, int i, int j) {
+    if (l <= i && j <= r) {
+      return vals[p];
+    } 
+    else if (j < l || r < i) { return -100; }
+    else {
+      int k = (i+j)>>1;
+      return max(query(l, r, p<<1, i, k), query(l, r, p<<1|1, k+1, j));
+    }
+  }
+};
+
+int main(){
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
+
+  int n; cin >> n;
+  vector<int> h(n);
+  for (int &x : h) cin >> x;
+
+  segtree st(h);
+
+  ll total = 0;
+  for (int i = 0; i < n-1; i++) {
+    if (h[i] <= h[i+1]) {
+      total += 1;
+      continue;
+    }
+
+    vector<int> tmp;
+    tmp.push_back(i+1);
+    while(tmp.back()+1 < n && st.query(tmp.back()+1, n-1, 1, 0, n-1) > h[tmp.back()] && h[tmp.back()] <= h[i]) {
+      int lo = tmp.back();
+      int hi = n-1;
+      int nxt = lo;
+
+      while(lo <= hi) {
+        int mid = hi-(hi-lo)/2;
+        if (st.query(tmp.back()+1, mid, 1, 0, n-1) > h[tmp.back()]) {
+          nxt = mid;
+          hi = mid-1;
+        }
+        else lo = mid+1;
+      }
+
+      tmp.push_back(nxt);
+    }
+    total += tmp.size();
+  }
+  cout << total << "\n";
+  
+  return 0;
+}
