@@ -10,7 +10,7 @@
 ## [2021ICPCLatinAmerica_H: Hamilton - The Musical](https://codeforces.com/gym/103640/problem/H)
 - Minimum-cost flow
 ## [ABC205F: Grid and Tokens](https://atcoder.jp/contests/abc205/tasks/abc205_f)
-- Max flow, Dinic's
+- Max flow, Wrong Dinic's (Actually Edmond Karp)
 ## [ABC149E_1: Handshake](https://atcoder.jp/contests/abc149/tasks/abc149_e)
 - Fast fourier transform
 - Implementation can be improved

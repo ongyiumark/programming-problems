@@ -14,36 +14,34 @@ typedef pair<int,pair<int,int>> iii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-const int INF = 1e9;
 int main(){
   ios_base::sync_with_stdio(false);
   cin.tie(NULL);
-  
+
   int n, m; cin >> n >> m;
-  vector<vector<int>> adj(3*n);
-  for (int i = 0; i < m; i++) {
-    int u, v; cin >> u >> v;
-    u--; v--;
-    adj[u].push_back(v+n);
-    adj[u+n].push_back(v+2*n);
-    adj[u+2*n].push_back(v);
+  bool forward[n][1005], backward[n][1005];
+  memset(forward, sizeof forward, 0);
+  memset(backward, sizeof backward, 0);
+  for (int i = 1; i <= m; i++) {
+    int a; cin >> a;
+    a--;
+    forward[a][i] = true;
+    backward[a+1][i] = true;
   }
 
-  int s, t; cin >> s >> t;
-  s--; t--;
-  queue<int> q;
-  q.push(s);
-  vector<int> d(3*n, INF);
-  d[s] = 0;
-  while(!q.empty()) {
-    int u = q.front();
-    q.pop();
-    for (int v : adj[u]) {
-      if (d[v] < INF) continue;
-      d[v] = d[u]+1;
-      q.push(v);
+  vector<int> res(n);
+  for (int x = 0; x < n; x++) {
+    int cx = x;
+    for (int i = 1; i <= m; i++) {
+      if (forward[cx][i]) cx++;
+      else if (backward[cx][i]) cx--;
     }
+    res[cx] = x;
   }
-  cout << (d[t] < INF ? d[t]/3 : -1) << "\n";
+  for (int i = 0; i < n; i++) {
+    cout << res[i]+1 << "\n";
+  }
+
+  
   return 0;
 }
