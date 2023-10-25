@@ -72,8 +72,7 @@ signed main() {
     for (int i = 0; i < n; i++) cout << ans[i] << "\n";
   }
   else {
-    string s = names[0][1] + "$" + names[1][0];
-    string t = names[1][0] + "$" + names[0][1];
+    string s = names[0][1] + "$" + names[1][0] + names[1][0];
     int l1 = names[0][1].size();
     int l2 = names[1][0].size();
 
@@ -82,23 +81,18 @@ signed main() {
       return 0;
    }
     vector<int> z = solveZ(s);
-    vector<int> z_other = solveZ(t);
-
     vector<pair<string, string>> ans;
     int cnt = 0;
-    for (int i = l1+1; i < l1+l2+1; i++) {
-      if (0 < z[i] && z[i] < l1) {
-        if (z_other[l2+1+z[i]] == l1-z[i]) {
-          cnt++;
-          string n1 = names[0][1].substr(0,z[i]);
-          string n2 = names[0][1].substr(z[i]);
-          assert(n2 + n1 == names[1][0]);
-          ans.push_back({n1, n2});
-        }
-        if (cnt > 1) {
-          cout << "MANY\n";
-          return 0;
-        }
+    for (int i = l1+2; i <= 3*l1+1-l1-1; i++) {
+      if (z[i] == l1) {
+        string n2 = names[1][0].substr(0, i-l1-1);
+        string n1 = names[1][0].substr(i-l1-1);
+        ans.push_back({n1, n2});
+        cnt++;
+      }
+      if (cnt > 1) {
+        cout << "MANY\n";
+        return 0;
       }
     }
 

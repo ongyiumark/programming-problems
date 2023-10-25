@@ -2,7 +2,7 @@
 using namespace std;
 
 typedef long long ll;
-typedef long long ld;
+typedef long double ld;
 
 string next_term(string &s) {
   vector<int> cnt(10);
