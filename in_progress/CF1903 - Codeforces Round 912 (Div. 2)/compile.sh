@@ -1,0 +1,1 @@
+g++ $1.cpp -o $1 -fsanitize=address -Wall -g
