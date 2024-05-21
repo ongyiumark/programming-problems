@@ -14,8 +14,12 @@ typedef pair<int,pair<int,int>> iii;
 template <typename T>
 using ordered_set = __gnu_pbds::tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
+int ceildiv(int a, int b) { return (a+b-1)/b; }
 int main(){
   cin.tie(0)->sync_with_stdio(false);
+
+  int n, d; cin >> n >> d;
+  cout << ceildiv(n, 2*d+1) << "\n";
   
   return 0;
 }
