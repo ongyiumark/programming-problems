@@ -1,0 +1,1 @@
+print(len(s)) if "123456789".startswith(s := input()) else print(-1)
